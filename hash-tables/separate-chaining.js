@@ -114,25 +114,3 @@ export class HashTable {
     return true;
   }
 }
-
-// const hashTable = new HashTable();
-
-// hashTable.insert("value1");
-// hashTable.insert("value2");
-// hashTable.insert("value2");
-// hashTable.insert("value3");
-// hashTable.insert("value4");
-// hashTable.insert("value5");
-// console.log(hashTable);
-// hashTable.remove("value2");
-// hashTable.remove("value1");
-// hashTable.remove("value3");
-// hashTable.remove("value4");
-// console.log(hashTable);
-// hashTable.insert("value2");
-// hashTable.insert("value3");
-// hashTable.insert("value4");
-// hashTable.insert("value5");
-// hashTable.insert("value6");
-// console.log(hashTable);
-// hashTable.insert("value6");

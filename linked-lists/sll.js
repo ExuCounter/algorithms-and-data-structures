@@ -53,16 +53,3 @@ export class LinkedList {
     return this.sentinel.next;
   }
 }
-
-// const linkedList = new LinkedList();
-
-// linkedList.push("value1");
-// linkedList.delete("value1");
-// console.log(linkedList.find("value1"), "hello");
-// linkedList.push("value2");
-// linkedList.push("value3");
-
-// console.log(linkedList.find("value1"));
-// console.log(linkedList.find("value2"));
-// linkedList.find("value3");
-// linkedList.find("value4");
