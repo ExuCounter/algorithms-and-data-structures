@@ -135,6 +135,8 @@ export class HashTable {
   }
 
   remove(value) {
+    this.#resizeIfNeeded();
+
     if (!this.has(value)) return false;
 
     const hash = this.#getHash(value);

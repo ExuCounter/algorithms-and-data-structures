@@ -1,52 +1,5 @@
 import { HashTable } from "./hash-tables/separate-chaining.js";
-
-class Node {
-  constructor(value) {
-    this.value = value;
-    this.next = null;
-  }
-}
-
-class LinkedList {
-  constructor() {
-    this.sentinel = new Node(null);
-    this.sentinel.next = this.sentinel;
-
-    this.head = this.sentinel;
-    this.tail = this.sentinel;
-
-    this.size = 0;
-  }
-
-  push(value) {
-    const node = new Node(value);
-    this.tail.next = node;
-    this.tail = node;
-    this.size++;
-  }
-
-  find(value) {
-    let current = this.head.next;
-    while (current !== this.sentinel) {
-      if (current.value === value) return current;
-      current = current.next;
-    }
-    return null;
-  }
-
-  delete(value) {
-    let current = this.head;
-    while (current.next !== this.sentinel) {
-      if (current.next.value === value) {
-        current.next = current.next.next;
-        this.size--;
-        return true;
-      }
-      current = current.next;
-    }
-    return false;
-  }
-}
+import { LinkedList } from "./linked-lists/sll.js";
 
 const dataset = new Array(Math.pow(10, 5)).fill(0).map((_, i) => i);
 const shuffledDataset = [...dataset].sort(() => Math.random() - 0.5);
@@ -89,7 +42,7 @@ const searchLinkedList = (linkedList) => {
 
 const deleteLinkedList = (linkedList) => {
   for (let i = 0; i < 1000; i++) {
-    linkedList.delete(shuffledDataset[i]);
+    linkedList.remove(shuffledDataset[i]);
   }
   return linkedList;
 };
@@ -151,7 +104,6 @@ const measure = (structure, operation, fn) => {
   const end = performance.now();
   const time = `${(end - start).toFixed(2)} ms`;
 
-  // Store result in the right cell of the table
   measurements[operation][structure] = time;
 };
 
