@@ -11,6 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "jest": "^29.7.0",
-    "murmurhash-js": "^1.0.0"
+    "murmurhash-js": "^1.0.0",
+    "xxhash-wasm": "^1.1.0",
+    "xxhashjs": "^0.2.2"
   }
 }

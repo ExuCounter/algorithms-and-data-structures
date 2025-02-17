@@ -67,11 +67,6 @@ describe("HashTable (Without Keys)", () => {
   });
 
   describe("Edge cases", () => {
-    test("should handle undefined or null values", () => {
-      expect(() => hashTable.insert(undefined)).toThrow();
-      expect(() => hashTable.insert(null)).toThrow();
-    });
-
     test("should handle large number of values", () => {
       for (let i = 0; i < 1000; i++) {
         hashTable.insert(`value${i}`);

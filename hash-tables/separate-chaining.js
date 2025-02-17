@@ -1,5 +1,34 @@
-import murmur from "murmurhash-js";
+// Hash function used for hashing string
+import { murmur3 } from "murmurhash-js";
+// Plain linked list, optimized for insertion
 import { LinkedList } from "../linked-lists/sll.js";
+
+// memoize execution of heavy functions as hashing
+function memoize(fn) {
+  const obj = {};
+
+  return function (arg) {
+    if (obj[arg]) {
+      return obj[arg];
+    } else {
+      const res = fn(arg);
+
+      obj[arg] = res;
+
+      return res;
+    }
+  };
+}
+
+function getHashCode(value) {
+  if (typeof value === "number") return value * 397;
+
+  const str = JSON.stringify(value);
+
+  return murmur3(str, "seed");
+}
+
+const memoizedHash = memoize(getHashCode);
 
 export class HashTable {
   constructor() {
@@ -28,8 +57,7 @@ export class HashTable {
   }
 
   #getHash(value) {
-    const hashFn = (value) => murmur.murmur3(value, "seed");
-    return hashFn(value);
+    return memoizedHash(value);
   }
 
   #resize(arrayLength) {
@@ -38,7 +66,9 @@ export class HashTable {
     const resizedArray = Array(arrayLength);
 
     for (let i = 0; i < this._array.length; i++) {
-      const oldLinkedList = this._array[i] || new LinkedList();
+      const oldLinkedList = this._array[i];
+
+      if (!oldLinkedList) continue;
 
       let node = oldLinkedList.head;
       let left = oldLinkedList.size;
@@ -75,17 +105,19 @@ export class HashTable {
   }
 
   insert(value) {
-    if (this.has(value)) return false;
-
     this.#resizeIfNeeded();
 
     const hash = this.#getHash(value);
     const idx = hash % this._array.length;
-    const linkedList = this._array[idx] || new LinkedList();
+
+    if (!this._array[idx]) {
+      this._array[idx] = new LinkedList();
+    }
+
+    const linkedList = this._array[idx];
 
     linkedList.push(value);
 
-    this._array[idx] = linkedList;
     this._size++;
 
     return true;
@@ -94,15 +126,16 @@ export class HashTable {
   has(value) {
     const hash = this.#getHash(value);
     const idx = hash % this._array.length;
-    const linkedList = this._array[idx] || new LinkedList();
+
+    if (!this._array[idx]) return false;
+
+    const linkedList = this._array[idx];
 
     return !!linkedList.find(value);
   }
 
   remove(value) {
     if (!this.has(value)) return false;
-
-    this.#resizeIfNeeded();
 
     const hash = this.#getHash(value);
     const idx = hash % this._array.length;
